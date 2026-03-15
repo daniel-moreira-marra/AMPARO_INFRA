@@ -46,3 +46,58 @@ resource "aws_subnet" "public_b" {
   cidr_block        = "10.0.2.0/24"
   availability_zone = "us-east-1b" # Prédio B (Para o sistema não cair se o A falhar)
 }
+
+# ==============================================================================
+# SUB-REDES PRIVADAS (PRIVATE SUBNETS)
+# ==============================================================================
+# Sub-redes isoladas da internet pública, usadas para recursos seguros como banco de dados.
+
+# Sub-rede Privada Primária (us-east-1a)
+resource "aws_subnet" "private_a" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.3.0/24"
+  availability_zone = "us-east-1a"
+  tags = {
+    Name = "amparo-private-subnet-a"
+  }
+}
+
+# Sub-rede Privada Secundária (us-east-1b)
+resource "aws_subnet" "private_b" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.4.0/24"
+  availability_zone = "us-east-1b"
+  tags = {
+    Name = "amparo-private-subnet-b"
+  }
+}
+
+# ==============================================================================
+# ROUTE TABLE PÚBLICA
+# ==============================================================================
+# Sem uma Route Table apontando para o Internet Gateway, os recursos nas subnets
+# públicas não conseguem se comunicar com a internet — mesmo com o IGW criado.
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+
+  tags = {
+    Name = "amparo-public-rt"
+  }
+}
+
+# Associa a Route Table às duas subnets públicas
+resource "aws_route_table_association" "public_a" {
+  subnet_id      = aws_subnet.public_a.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public_b" {
+  subnet_id      = aws_subnet.public_b.id
+  route_table_id = aws_route_table.public.id
+}
