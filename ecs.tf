@@ -2,6 +2,9 @@
 # ELASTIC CONTAINER SERVICE (ECS) - FARGATE
 # ==============================================================================
 
+# Data source para obter o ID da conta AWS dinamicamente
+data "aws_caller_identity" "current" {}
+
 # 1. Cluster ECS (agrupador lógico)
 resource "aws_ecs_cluster" "main" {
   name = "amparo-cluster"
@@ -67,7 +70,7 @@ resource "aws_cloudwatch_log_group" "frontend" {
 # ==============================================================================
 
 locals {
-  aws_account_id = "381492043400"
+  aws_account_id = data.aws_caller_identity.current.account_id
   aws_region     = "us-east-1"
   ecr_base_url   = "${local.aws_account_id}.dkr.ecr.${local.aws_region}.amazonaws.com"
 }
