@@ -92,7 +92,9 @@ graph TD
 ### Pré-requisitos
 1. **Terraform CLI** instalado.
 2. Credenciais AWS configuradas.
-3. Arquivo `secrets.auto.tfvars` preenchido com as variáveis sensíveis (veja `variables.tf`).
+
+> [!IMPORTANT]
+> **Arquivo de Segredos**: Antes de qualquer comando, você deve criar um arquivo chamado `secrets.auto.tfvars` na raiz desta pasta e preenchê-lo com as variáveis sensíveis. O Terraform irá ignorar este arquivo no Git (via .gitignore).
 
 ### Comandos Básicos
 ```bash
@@ -111,8 +113,9 @@ Ao final do `apply`, o DNS do Load Balancer será exibido no output `alb_dns_nam
 ---
 
 ## 📝 Variáveis Importantes
-As seguintes variáveis devem ser definidas para o sucesso do build:
-- `db_username` / `db_password`: Credenciais do banco.
-- `django_secret_key`: Chave mestra do Django.
-- `aws_bucket_name`: Nome único para o bucket S3 de mídias.
-- `aws_access_key_id` / `aws_secret_access_key`: Chaves de acesso para o backend (se necessário via ENV).
+As seguintes variáveis devem ser definidas no seu `secrets.auto.tfvars`:
+- `db_username` / `db_password`: Credenciais mestras do banco de dados RDS.
+- `django_secret_key`: Chave secreta única para o Django em produção.
+
+*Nota: Variáveis como `db_host`, `aws_access_key_id` e `AWS_STORAGE_BUCKET_NAME` agora são auto-geradas e injetadas automaticamente no ECS.*
+

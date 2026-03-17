@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "media_bucket" {
-  bucket = var.aws_bucket_name
+  bucket = "amparo-media-storage"
 
   tags = {
     Name        = "Amparo Media Bucket"
@@ -82,7 +82,7 @@ resource "aws_iam_policy" "s3_access_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "s3_access_attach" {
-  role       = "amparo-ecs-task-execution-role" # Nome definido em ecs.tf
+  role       = aws_iam_role.ecs_task_execution_role.name # Referência dinâmica ao recurso em ecs.tf
   policy_arn = aws_iam_policy.s3_access_policy.arn
 }
 

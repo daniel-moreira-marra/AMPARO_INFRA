@@ -16,11 +16,7 @@ variable "db_password" {
   sensitive   = true
 }
 
-variable "db_host" {
-  description = "Endpoint do RDS PostgreSQL"
-  type        = string
-  sensitive   = true
-}
+
 
 variable "django_secret_key" {
   description = "SECRET_KEY do Django"
@@ -34,22 +30,9 @@ variable "allowed_hosts" {
   default     = "*"
 }
 
-variable "aws_access_key_id" {
-  description = "AWS Access Key ID para o backend acessar o S3"
-  type        = string
-  sensitive   = true
-}
 
-variable "aws_secret_access_key" {
-  description = "AWS Secret Access Key para o backend acessar o S3"
-  type        = string
-  sensitive   = true
-}
 
-variable "aws_bucket_name" {
-  description = "Nome do novo bucket S3 para mídias"
-  type        = string
-}
+
 
 variable "old_aws_bucket_name" {
   description = "Nome do bucket S3 antigo para migração"
