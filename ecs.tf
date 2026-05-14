@@ -111,6 +111,8 @@ resource "aws_ecs_task_definition" "backend" {
         { name = "AWS_SECRET_ACCESS_KEY",  value = aws_iam_access_key.backend_s3_key.secret },
         { name = "AWS_STORAGE_BUCKET_NAME",value = aws_s3_bucket.media_bucket.id },
         { name = "AWS_S3_REGION_NAME",     value = local.aws_region },
+        { name  = "EMAIL_HOST_USER",       value = var.email_host_user},
+        { name  = "EMAIL_HOST_PASSWORD",   value = var.email_host_password},
         { name = "DJANGO_ALLOWED_CORS",    value = var.django_allowed_cors },
         { name = "CSRF_TRUSTED_ORIGINS",   value = var.csrf_trusted_origins },
         { name = "IS_ADMIN_BLOCKED",       value = var.is_admin_blocked },

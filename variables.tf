@@ -70,3 +70,13 @@ variable "development_environment" {
   default     = "PROD"
 }
 
+variable "email_host_user" {
+  description = "E-mail usado no SMTP"
+  type        = string
+}
+
+variable "email_host_password" {
+  description = "Senha de aplicativo do e-mail"
+  type        = string
+  sensitive   = true
+}
