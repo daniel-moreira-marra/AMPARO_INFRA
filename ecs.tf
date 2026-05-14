@@ -117,6 +117,7 @@ resource "aws_ecs_task_definition" "backend" {
         { name = "CSRF_TRUSTED_ORIGINS",   value = var.csrf_trusted_origins },
         { name = "IS_ADMIN_BLOCKED",       value = var.is_admin_blocked },
         { name = "DEVELOPMENT_ENVIRONMENT",value = var.development_environment },
+        { name = "FRONTEND_URL",           value = "http://${aws_lb.main.dns_name}" },
       ]
       logConfiguration = {
         logDriver = "awslogs"
